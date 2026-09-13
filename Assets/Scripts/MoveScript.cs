@@ -78,25 +78,26 @@ public class MoveScript : MonoBehaviour
     // the force and apply it all at once
     private void FixedUpdate()
     {        
-        if (shiftLock)
-        {
-            transform.rotation = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f);
-            groundCheckPoint.rotation = transform.rotation;
-
-        }
-        else
-        {
-            groundCheckPoint.rotation = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f);
-        }
-
         Vector3 camForward = groundCheckPoint.forward;
         Vector3 camRight = groundCheckPoint.right;
 
         Vector3 desiredDirection = moveInput.y * camForward + moveInput.x * camRight;
 
-        if (desiredDirection != Vector3.zero && !shiftLock)
+        if (!shiftLock)
         {
-            transform.rotation = Quaternion.LookRotation(desiredDirection);
+            groundCheckPoint.rotation = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f);
+
+            if (desiredDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(desiredDirection);
+                Quaternion newRotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.5f);
+                playerRigidBody.MoveRotation(newRotation);
+            }
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f);
+            groundCheckPoint.rotation = transform.rotation;
         }
 
         Vector3 horizontalMovement = desiredDirection * moveSpeed * sprintSpeedMultiplier;

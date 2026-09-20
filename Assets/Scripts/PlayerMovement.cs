@@ -96,7 +96,7 @@ public class MoveScript : MonoBehaviour
         }
         else
         {
-            transform.rotation = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f);
+            playerRigidBody.MoveRotation(Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f));
             groundCheckPoint.rotation = transform.rotation;
         }
 

@@ -90,7 +90,7 @@ public class MoveScript : MonoBehaviour
             if (desiredDirection != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(desiredDirection);
-                Quaternion newRotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.5f);
+                Quaternion newRotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.2f);
                 playerRigidBody.MoveRotation(newRotation);
             }
         }

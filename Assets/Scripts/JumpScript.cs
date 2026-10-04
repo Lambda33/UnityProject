@@ -21,17 +21,20 @@ public class JumpScript : MonoBehaviour
         return Physics.Raycast(groundCheckPoint.position, Vector3.down, 0.1f);
     }
     
-    // HEAVY WIP; return the boolean used in PlayerAnimations script to launch the animation.
-    public bool JumpPressed()
-    {
-        return true;
-    }
     public void Jump(InputAction.CallbackContext context)
     {
+        if (context.performed)
+            Debug.Log("Jump pressed !");
+
         if (context.performed && IsGrounded())
         {
             playerRigidBody.AddForce(jumpForce, ForceMode.Impulse);
-            JumpPressed();
         }
+    }
+
+    public void Update()
+    {
+        Debug.DrawRay(groundCheckPoint.position, Vector3.down);
+        Debug.Log(Physics.Raycast(groundCheckPoint.position, Vector3.down, 0.1f));
     }
 }
